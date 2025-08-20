@@ -1,0 +1,6 @@
+@Relatorios_HostAddress = http://localhost:5067
+
+GET {{Relatorios_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
