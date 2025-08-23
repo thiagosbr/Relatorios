@@ -5,6 +5,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Data.Common;
+using System.Text;
 
 namespace Relatorios.Controllers
 {
@@ -176,6 +177,7 @@ namespace Relatorios.Controllers
             return File(pdf, "application/pdf", "relatorio-grupo-economico.pdf");
         }
 
+
         [HttpGet("grupo-economico-puppeteer-HTML")]
         public async Task<IActionResult> GrupoEconomicoPuppeteerHTML()
         {
@@ -184,277 +186,227 @@ namespace Relatorios.Controllers
             var dataHoje = DateTime.Now.ToString("dd/MM/yyyy");
 
             var empresas = new List<(string Codigo, string Nome, string Data)>
-    {
-
-                ("16118","ARCOM S/A.","15/09/2010"),
-                ("22901","AROMATERAPIA INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
-                ("09590","C-P INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
-                ("01253","COLGATE PALMOLIVE LTDA.","15/09/2010"),
-                ("20074","COLGATE-PALMOLIVE CHILE S.A.","15/09/2010"),
-                ("00843","COLGATE-PALMOLIVE COMPANY","15/09/2010"),
-                ("36104","COLGATE-PALMOLIVE EUROPE SARL","29/12/2011"),
-                ("31496","COLGATE-PALMOLIVE INVESTMENTS (BVI)","15/09/2010"),
-                ("06361","COLGATE-PALMOLIVE S.p.A","15/09/2010"),
-                ("08939","COMÉRCIO DE ESCOVA ORAL LTDA.","15/09/2010"),
-                ("12362","DALTEX INDUSTRIAL LTDA","15/09/2010"),
-                ("15394","FISBRA SERVIÇOS EM CONSULTORIA LTDA.","15/09/2010"),
-                ("14292","HILL'S PET NUTRITION, INC.","15/09/2010"),
-                ("11271","INDÚSTRIA E COMÉRCIO SANTA THEREZA LTDA.","15/09/2010"),
-                ("05911","INDÚSTRIAS GESSY LEVER LTDA.","15/09/2010"),
-                ("11664","KOLYNOS DO BRASIL LTDA","15/09/2010"),
-                ("11124","ODOL SOCIEDAD ANONIMA INDUSTRIAL Y COMERCIAL","15/09/2010"),
-                ("15471","RALSTON PURINA COMPANY","15/09/2010"),
-                ("31602","TEC IMPORTS IMPORTAÇÃO E EXPORTAÇÃO LTDA.","15/09/2010"),
-                ("07236","THE MENNEN COMPANY","15/09/2010"),
-                ("12108","UNILEVER N.V.","15/09/2010"),
-                ("08520","WYETH","15/09/2010"),
-                ("00160","WYETH HOLDINGS CORPORATION","15/09/2010"),
-                ("16118","ARCOM S/A.","15/09/2010"),
-                ("22901","AROMATERAPIA INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
-                ("09590","C-P INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
-                ("01253","COLGATE PALMOLIVE LTDA.","15/09/2010"),
-                ("20074","COLGATE-PALMOLIVE CHILE S.A.","15/09/2010"),
-                ("00843","COLGATE-PALMOLIVE COMPANY","15/09/2010"),
-                ("36104","COLGATE-PALMOLIVE EUROPE SARL","29/12/2011"),
-                ("31496","COLGATE-PALMOLIVE INVESTMENTS (BVI)","15/09/2010"),
-                ("06361","COLGATE-PALMOLIVE S.p.A","15/09/2010"),
-                ("08939","COMÉRCIO DE ESCOVA ORAL LTDA.","15/09/2010"),
-                ("12362","DALTEX INDUSTRIAL LTDA","15/09/2010"),
-                ("15394","FISBRA SERVIÇOS EM CONSULTORIA LTDA.","15/09/2010"),
-                ("14292","HILL'S PET NUTRITION, INC.","15/09/2010"),
-                ("11271","INDÚSTRIA E COMÉRCIO SANTA THEREZA LTDA.","15/09/2010"),
-                ("05911","INDÚSTRIAS GESSY LEVER LTDA.","15/09/2010"),
-                ("11664","KOLYNOS DO BRASIL LTDA","15/09/2010"),
-                ("11124","ODOL SOCIEDAD ANONIMA INDUSTRIAL Y COMERCIAL","15/09/2010"),
-                ("15471","RALSTON PURINA COMPANY","15/09/2010"),
-                ("31602","TEC IMPORTS IMPORTAÇÃO E EXPORTAÇÃO LTDA.","15/09/2010"),
-                ("07236","THE MENNEN COMPANY","15/09/2010"),
-                ("12108","UNILEVER N.V.","15/09/2010"),
-                ("08520","WYETH","15/09/2010"),
-                ("00160","WYETH HOLDINGS CORPORATION","15/09/2010"),
-                ("16118","ARCOM S/A.","15/09/2010"),
-                ("22901","AROMATERAPIA INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
-                ("09590","C-P INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
-                ("01253","COLGATE PALMOLIVE LTDA.","15/09/2010"),
-                ("20074","COLGATE-PALMOLIVE CHILE S.A.","15/09/2010"),
-                ("00843","COLGATE-PALMOLIVE COMPANY","15/09/2010"),
-                ("36104","COLGATE-PALMOLIVE EUROPE SARL","29/12/2011"),
-                ("31496","COLGATE-PALMOLIVE INVESTMENTS (BVI)","15/09/2010"),
-                ("06361","COLGATE-PALMOLIVE S.p.A","15/09/2010"),
-                ("08939","COMÉRCIO DE ESCOVA ORAL LTDA.","15/09/2010"),
-                ("12362","DALTEX INDUSTRIAL LTDA","15/09/2010"),
-                ("15394","FISBRA SERVIÇOS EM CONSULTORIA LTDA.","15/09/2010"),
-                ("14292","HILL'S PET NUTRITION, INC.","15/09/2010"),
-                ("11271","INDÚSTRIA E COMÉRCIO SANTA THEREZA LTDA.","15/09/2010"),
-                ("05911","INDÚSTRIAS GESSY LEVER LTDA.","15/09/2010"),
-                ("11664","KOLYNOS DO BRASIL LTDA","15/09/2010"),
-                ("11124","ODOL SOCIEDAD ANONIMA INDUSTRIAL Y COMERCIAL","15/09/2010"),
-                ("15471","RALSTON PURINA COMPANY","15/09/2010"),
-                ("31602","TEC IMPORTS IMPORTAÇÃO E EXPORTAÇÃO LTDA.","15/09/2010"),
-                ("07236","THE MENNEN COMPANY","15/09/2010"),
-                ("12108","UNILEVER N.V.","15/09/2010"),
-                ("08520","WYETH","15/09/2010"),
-                ("00160","WYETH HOLDINGS CORPORATION","15/09/2010"),
-    };
+        {
+            ("16118","ARCOM S/A.","15/09/2010"),
+            ("22901","AROMATERAPIA INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
+            ("09590","C-P INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
+            ("01253","COLGATE PALMOLIVE LTDA.","15/09/2010"),
+            ("20074","COLGATE-PALMOLIVE CHILE S.A.","15/09/2010"),
+            ("00843","COLGATE-PALMOLIVE COMPANY","15/09/2010"),
+            ("36104","COLGATE-PALMOLIVE EUROPE SARL","29/12/2011"),
+            ("31496","COLGATE-PALMOLIVE INVESTMENTS (BVI)","15/09/2010"),
+            ("06361","COLGATE-PALMOLIVE S.p.A","15/09/2010"),
+            ("08939","COMÉRCIO DE ESCOVA ORAL LTDA.","15/09/2010"),
+            ("12362","DALTEX INDUSTRIAL LTDA","15/09/2010"),
+            ("15394","FISBRA SERVIÇOS EM CONSULTORIA LTDA.","15/09/2010"),
+            ("14292","HILL'S PET NUTRITION, INC.","15/09/2010"),
+            ("11271","INDÚSTRIA E COMÉRCIO SANTA THEREZA LTDA.","15/09/2010"),
+            ("05911","INDÚSTRIAS GESSY LEVER LTDA.","15/09/2010"),
+            ("11664","KOLYNOS DO BRASIL LTDA","15/09/2010"),
+            ("11124","ODOL SOCIEDAD ANONIMA INDUSTRIAL Y COMERCIAL","15/09/2010"),
+            ("15471","RALSTON PURINA COMPANY","15/09/2010"),
+            ("31602","TEC IMPORTS IMPORTAÇÃO E EXPORTAÇÃO LTDA.","15/09/2010"),
+            ("07236","THE MENNEN COMPANY","15/09/2010"),
+            ("12108","UNILEVER N.V.","15/09/2010"),
+            ("08520","WYETH","15/09/2010"),
+            ("00160","WYETH HOLDINGS CORPORATION","15/09/2010"),
+             ("16118","ARCOM S/A.","15/09/2010"),
+            ("22901","AROMATERAPIA INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
+            ("09590","C-P INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
+            ("01253","COLGATE PALMOLIVE LTDA.","15/09/2010"),
+            ("20074","COLGATE-PALMOLIVE CHILE S.A.","15/09/2010"),
+            ("00843","COLGATE-PALMOLIVE COMPANY","15/09/2010"),
+            ("36104","COLGATE-PALMOLIVE EUROPE SARL","29/12/2011"),
+            ("31496","COLGATE-PALMOLIVE INVESTMENTS (BVI)","15/09/2010"),
+            ("06361","COLGATE-PALMOLIVE S.p.A","15/09/2010"),
+            ("08939","COMÉRCIO DE ESCOVA ORAL LTDA.","15/09/2010"),
+            ("12362","DALTEX INDUSTRIAL LTDA","15/09/2010"),
+            ("15394","FISBRA SERVIÇOS EM CONSULTORIA LTDA.","15/09/2010"),
+            ("14292","HILL'S PET NUTRITION, INC.","15/09/2010"),
+            ("11271","INDÚSTRIA E COMÉRCIO SANTA THEREZA LTDA.","15/09/2010"),
+            ("05911","INDÚSTRIAS GESSY LEVER LTDA.","15/09/2010"),
+            ("11664","KOLYNOS DO BRASIL LTDA","15/09/2010"),
+            ("11124","ODOL SOCIEDAD ANONIMA INDUSTRIAL Y COMERCIAL","15/09/2010"),
+            ("15471","RALSTON PURINA COMPANY","15/09/2010"),
+            ("31602","TEC IMPORTS IMPORTAÇÃO E EXPORTAÇÃO LTDA.","15/09/2010"),
+            ("07236","THE MENNEN COMPANY","15/09/2010"),
+            ("12108","UNILEVER N.V.","15/09/2010"),
+            ("08520","WYETH","15/09/2010"),
+            ("00160","WYETH HOLDINGS CORPORATION","15/09/2010"),
+             ("16118","ARCOM S/A.","15/09/2010"),
+            ("22901","AROMATERAPIA INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
+            ("09590","C-P INDÚSTRIA E COMÉRCIO LTDA.","15/09/2010"),
+            ("01253","COLGATE PALMOLIVE LTDA.","15/09/2010"),
+            ("20074","COLGATE-PALMOLIVE CHILE S.A.","15/09/2010"),
+            ("00843","COLGATE-PALMOLIVE COMPANY","15/09/2010"),
+            ("36104","COLGATE-PALMOLIVE EUROPE SARL","29/12/2011"),
+            ("31496","COLGATE-PALMOLIVE INVESTMENTS (BVI)","15/09/2010"),
+            ("06361","COLGATE-PALMOLIVE S.p.A","15/09/2010"),
+            ("08939","COMÉRCIO DE ESCOVA ORAL LTDA.","15/09/2010"),
+            ("12362","DALTEX INDUSTRIAL LTDA","15/09/2010"),
+            ("15394","FISBRA SERVIÇOS EM CONSULTORIA LTDA.","15/09/2010"),
+            ("14292","HILL'S PET NUTRITION, INC.","15/09/2010"),
+            ("11271","INDÚSTRIA E COMÉRCIO SANTA THEREZA LTDA.","15/09/2010"),
+            ("05911","INDÚSTRIAS GESSY LEVER LTDA.","15/09/2010"),
+            ("11664","KOLYNOS DO BRASIL LTDA","15/09/2010"),
+            ("11124","ODOL SOCIEDAD ANONIMA INDUSTRIAL Y COMERCIAL","15/09/2010"),
+            ("15471","RALSTON PURINA COMPANY","15/09/2010"),
+            ("31602","TEC IMPORTS IMPORTAÇÃO E EXPORTAÇÃO LTDA.","15/09/2010"),
+            ("07236","THE MENNEN COMPANY","15/09/2010"),
+            ("12108","UNILEVER N.V.","15/09/2010"),
+            ("08520","WYETH","15/09/2010"),
+            ("00160","WYETH HOLDINGS CORPORATION","15/09/2010")
+            // ... (mantenha sua lista completa)
+        };
 
             await new BrowserFetcher().DownloadAsync();
-
-            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
                 Args = new[] { "--no-sandbox", "--disable-setuid-sandbox" }
-            }))
-            using (var page = await browser.NewPageAsync())
-            {
-                var htmlContent = $@"
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset='UTF-8'>
-            <style>
-                body {{
-                    font-family: Arial, sans-serif;
+            });
+            await using var page = await browser.NewPageAsync();
+
+            // -------- HTML + CSS que replica o PDF --------
+            var sb = new StringBuilder();
+            sb.Append($@"
+                <!DOCTYPE html>
+                <html lang='pt-BR'>
+                <head>
+                <meta charset='utf-8'>
+                <style>
+                  /* Página A4 controlada pelo Puppeteer via PdfOptions */
+                  html, body {{
                     margin: 0;
                     padding: 0;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                    font-family: Arial, Helvetica, sans-serif;
                     font-size: 11px;
-                    line-height: 1.2;
-                }}
-                .header-container {{
-                    margin-bottom: 30px;
-                }}
-                .header-line {{
-                    display: flex;
-                    justify-content: space-between;
-                    margin-bottom: 5px;
-                }}
-                .header-left {{
-                    font-weight: bold;
-                    font-size: 11px;
-                }}
-                .header-right {{
-                    font-size: 11px;
-                }}
-                .pagination {{
-                    text-align: right;
-                    font-size: 10px;
-                    margin-bottom: 15px;
-                }}
-                .title-box {{
-                    border: 2px solid #000000;
-                    background-color: #ffffff;
-                    padding: 8px;
-                    text-align: center;
-                    margin: 15px 0;
-                    font-size: 14px;
-                    font-weight: bold;
-                }}
-                table {{
+                    line-height: 1.25;
+                    color: #000;
+                  }}
+
+                  /* Tabela principal: usamos THEAD para repetir título e cabeçalho em cada página */
+                  table.grid {{
                     width: 100%;
                     border-collapse: collapse;
-                    margin: 15px 0;
-                    font-size: 10px;
-                }}
-                th, td {{
-                    border: 1px solid #000000;
-                    padding: 6px;
-                    text-align: left;
-                }}
-                th {{
-                    background-color: #f8f8f8;
-                    font-weight: bold;
+                  }}
+
+                  thead {{ display: table-header-group; }}
+                  tfoot {{ display: table-footer-group; }} /* caso precise no futuro */
+                  tr {{ page-break-inside: avoid; }}
+
+                  /* Título que repete em todas as páginas (fica dentro do THEAD) */
+                  .title-cell {{
+                    border: 2px solid #000;
+                    padding: 8px 6px;
                     text-align: center;
-                    font-size: 10px;
-                }}
-                td {{
-                    font-size: 10px;
-                }}
-                .data-cell {{
-                    text-align: right;
-                    padding-right: 10px;
-                }}
-                .total-container {{
-                    margin-top: 20px;
-                    text-align: right;
-                }}
-                .total-box {{
-                    border: 1px solid #000000;
-                    background-color: #ffffff;
-                    padding: 6px 12px;
-                    display: inline-block;
-                    font-weight: bold;
-                    font-size: 10px;
-                }}
-                .page-break {{
-                    page-break-after: always;
-                }}
-                @media print {{
-                    .header-container {{
-                        position: fixed;
-                        top: 30px;
-                        left: 40px;
-                        right: 40px;
-                    }}
-                    .title-box {{
-                        margin-top: 80px;
-                    }}
-                    body {{
-                        margin-top: 100px;
-                        margin-bottom: 50px;
-                    }}
-                    .total-container {{
-                        position: fixed;
-                        bottom: 30px;
-                        right: 40px;
-                    }}
-                }}
-            </style>
-        </head>
-        <body>
-            <!-- Header para cada página -->
-            <div class='header-container'>
-                <div class='header-line'>
-                    <div class='header-left'>{escritorio}</div>
-                    <div class='header-right'>{dataHoje}</div>
-                </div>
-                <div class='pagination'>
-                    Página <span class='pageNumber'></span> de <span class='totalPages'></span>
-                </div>
-            </div>
+                    font-weight: 700;
+                    font-size: 12px;
+                    background: #fff;
+                  }}
 
-            <!-- Título do relatório -->
-            <div class='title-box'>
-                Grupo Econômico {titular}
-            </div>
+                  /* Cabeçalho da tabela */
+                  .header-th {{
+                    border: 1px solid #000;
+                    padding: 6px;
+                    text-align: center;
+                    font-weight: 700;
+                    background: #f5f5f5;
+                    font-size: 10px;
+                  }}
 
-            <!-- Tabela de empresas -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Empresas Associadas</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>";
+                  /* Células do corpo */
+                  td {{
+                    border: 1px solid #000;
+                    padding: 6px;
+                    vertical-align: top;
+                    font-size: 10px;
+                  }}
+                  .date {{ text-align: right; }}
 
-                foreach (var e in empresas)
-                {
-                    htmlContent += $@"
-                    <tr>
+                  /* Total ao final do documento */
+                  .total-box {{
+                            margin-top: 20px;
+                            border: 1px solid #000;
+                            padding: 6px 0;
+                            font-weight: 700;
+                            font-size: 10px;
+                            text-align: center;   /* centraliza o texto */
+                            width: 100%;          /* ocupa toda a largura */
+                            box-sizing: border-box;
+                  }}
+                </style>
+                </head>
+                <body>
+
+                  <table class='grid'>
+                    <thead>
+                      <tr>
+                        <th class='title-cell' colspan='2'>Grupo Econômico {titular}</th>
+                      </tr>
+                      <tr>
+                        <th class='header-th'>Empresas Associadas</th>
+                        <th class='header-th'>Data</th>
+                      </tr>
+                    </thead>
+                    <tbody>");
+                            foreach (var e in empresas)
+                                sb.Append($@"
+                      <tr>
                         <td>{e.Codigo} - {e.Nome}</td>
-                        <td class='data-cell'>{e.Data}</td>
-                    </tr>";
-                }
+                        <td class='date'>{e.Data}</td>
+                      </tr>");
+                            sb.Append($@"
+                    </tbody>
+                  </table>
 
-                htmlContent += $@"
-                </tbody>
-            </table>
+                  <div class='total-box'>Total: {empresas.Count}</div>
 
-            <!-- Total de empresas -->
-            <div class='total-container'>
-                <div class='total-box'>
-                    Total: {empresas.Count}
-                </div>
-            </div>
+                </body>
+                </html>");
 
-            <script>
-                // Atualizar numeração de páginas
-                function updatePageNumbers() {{
-                    var pageCount = Math.ceil(document.body.scrollHeight / 1056);
-                    var pageNumbers = document.querySelectorAll('.pageNumber');
-                    var totalPages = document.querySelectorAll('.totalPages');
-                    
-                    for (var i = 0; i < pageNumbers.length; i++) {{
-                        pageNumbers[i].textContent = (i + 1);
-                        totalPages[i].textContent = pageCount;
-                    }}
-                }}
-                
-                updatePageNumbers();
-            </script>
-        </body>
-        </html>";
+                            var html = sb.ToString();
 
-                await page.SetContentAsync(htmlContent);
+                            // Header do PDF (repetido em todas as páginas) – usa placeholders do Chromium
+                            var headerTemplate = $@"
+                <div style='width:100%; padding:0 40px; box-sizing:border-box; font-family:Arial,Helvetica,sans-serif; color:#000;'>
+                  <div style='display:flex; justify-content:space-between; font-size:11px;'>
+                    <span style='font-weight:700;'>{escritorio}</span>
+                    <span>{dataHoje}</span>
+                  </div>
+                  <div style='text-align:right; font-size:10px; margin-top:2px;'>
+                    Página <span class='pageNumber'></span> de <span class='totalPages'></span>
+                  </div>
+                </div>";
 
-                var pdfOptions = new PdfOptions
+            // Rodapé vazio (apenas reserva espaço para bottom margin)
+            var footerTemplate = @"<div style='width:100%; height:0;'></div>";
+
+            await page.SetContentAsync(html);
+
+            var pdfOptions = new PdfOptions
+            {
+                Format = PaperFormat.A4,
+                PrintBackground = true,
+                DisplayHeaderFooter = true,
+                HeaderTemplate = headerTemplate,
+                FooterTemplate = footerTemplate,
+                MarginOptions = new MarginOptions
                 {
-                    Format = PaperFormat.A4,
-                    MarginOptions = new MarginOptions
-                    {
-                        Top = "80px",
-                        Right = "40px",
-                        Bottom = "60px",
-                        Left = "40px"
-                    },
-                    PrintBackground = true,
-                    DisplayHeaderFooter = false
-                };
+                    // espaço para header/rodapé (ajuste fino se quiser)
+                    Top = "90px",      // cabeçalho: 2 linhas
+                    Bottom = "40px",
+                    Left = "40px",
+                    Right = "40px"
+                },
+                PreferCSSPageSize = false
+            };
 
-                var pdfBytes = await page.PdfDataAsync(pdfOptions);
-                return File(pdfBytes, "application/pdf", "relatorio-grupo-economico-HTML.pdf");
-            }
+            var pdfBytes = await page.PdfDataAsync(pdfOptions);
+            return File(pdfBytes, "application/pdf", "relatorio-grupo-economico-HTML.pdf");
         }
-
 
         [HttpGet("relatorio-pastas-marcas")]
         public IActionResult RelatorioPastasMarcas()
