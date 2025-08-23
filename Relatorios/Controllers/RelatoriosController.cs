@@ -578,7 +578,7 @@ namespace Relatorios.Controllers
 
                     page.Content().Column(col =>
                     {
-                        col.Item().ShowOnce().Text("Não foi utilizado nenhum critério como filtro");
+                        col.Item().ShowOnce().Text("Não foi utilizado nenhum critério como filtro").Italic();
                         col.Item().ShowOnce().PageBreak();
                         HeaderLinha(col, "933739230 - LORD & BERRY", "M301089");
 
@@ -613,6 +613,10 @@ namespace Relatorios.Controllers
 
                         col.Item().PaddingVertical(8);
 
+                        col.Item().Border(2).BorderColor(Colors.Black)
+                               .Background(Colors.White)
+                               .Padding(1)
+                               .AlignCenter().Text("NCL");
                         col.Item().Border(1).Padding(8).Column(ncl =>
                         {
                             ncl.Item().Row(r =>
@@ -631,10 +635,14 @@ namespace Relatorios.Controllers
                         });
 
                         col.Item().PaddingVertical(8);
-                        col.Item().Border(1).Padding(8)
-                            .Text("RPI\nNº2778 - 02/04/2024 - IPAS0090000 - Publicação de pedido de registro para oposição");
 
-                        col.Item().PageBreak();
+                        col.Item().Border(2).BorderColor(Colors.Black)
+                             .Background(Colors.White)
+                             .Padding(1)
+                             .AlignCenter().Text("RPI");
+                        col.Item().Border(1).Padding(8)
+                            .Text("Nº2778 - 02/04/2024 - IPAS0090000 - Publicação de pedido de registro para oposição");
+                        col.Item().PaddingVertical(12);
 
                         // ===== Marca (Registro) com RPI =====
                         HeaderLinha(col, "750067527 - ARIOLI", "M301775");
@@ -668,9 +676,12 @@ namespace Relatorios.Controllers
                         });
 
                         col.Item().PaddingVertical(8);
+                        col.Item().Border(2).BorderColor(Colors.Black)
+                            .Background(Colors.White)
+                            .Padding(1)
+                            .AlignCenter().Text("RPI");
                         col.Item().Border(1).Padding(8).Column(rpi =>
                         {
-                            rpi.Item().Text("RPI").Bold();
                             rpi.Item().Text("Nº1095 - 26/11/1991 - 990 - CONCEDIDA PRORROGAÇÃO");
                             rpi.Item().Text("Nº1663 - 19/11/2002 - 565 - ANOTADA TRANSFERÊNCIA");
                             rpi.Item().Text("Nº1814 - 11/10/2005 - 990 - CONCEDIDA PRORROGAÇÃO");
@@ -681,11 +692,10 @@ namespace Relatorios.Controllers
                             rpi.Item().Text("Nº2668 - 22/02/2022 - IPAS2703745 - Deferimento de petição");
                             rpi.Item().Text("Nº2746 - 22/08/2023 - IPAS5663663 - Petição de retificação atendida");
                         });
-
-                        col.Item().PageBreak();
+                        col.Item().PaddingVertical(12);
 
                         // ===== Transferência =====
-                        col.Item().Text("Transferência").Bold().FontSize(12);
+                        col.Item().Text("Transferência").Bold().FontSize(12).Italic() ;
 
                         col.Item().Border(1).Padding(8).Column(tr =>
                         {
@@ -751,9 +761,10 @@ namespace Relatorios.Controllers
                             });
                         });
 
-                        col.Item().PageBreak();
+                        col.Item().PaddingVertical(12);
 
                         // ===== Oposição / Marca de Terceiro =====
+                        col.Item().Text("Marca de Terceiro").Bold().FontSize(12).Italic();
                         HeaderLinha(col, "931476054 - GEOLOGAR", "O210236");
 
                         col.Item().PaddingVertical(6);
@@ -785,14 +796,21 @@ namespace Relatorios.Controllers
                         });
 
                         col.Item().PaddingVertical(8);
+
+                        col.Item().Border(2).BorderColor(Colors.Black)
+                          .Background(Colors.White)
+                          .Padding(1)
+                          .AlignCenter().Text("RPI");
                         col.Item().Border(1).Padding(8).Column(rpi =>
                         {
-                            rpi.Item().Text("RPI").Bold();
+                            
                             rpi.Item().Text("Nº2761 - 05/12/2023 - IPAS4230000 -");
                             rpi.Item().Text("Nº2748 - 05/09/2023 - IPAS0090000 -");
                         });
 
-                        col.Item().PaddingTop(12).Text(t => { t.Span("Total de Pastas: ").SemiBold(); t.Span("4"); });
+                        col.Item().PaddingTop(12).Border(2).BorderColor(Colors.Black)
+                          .Padding(1)
+                          .AlignCenter().Text(t => { t.Span("Total de Pastas: ").SemiBold(); t.Span("4"); });
 
 
                     });
@@ -820,8 +838,6 @@ namespace Relatorios.Controllers
                 r.ConstantItem(100).AlignRight().Text(direita).Bold().FontSize(12);
             });
         }
-
-
 
     }
 
